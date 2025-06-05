@@ -1,0 +1,88 @@
+public class Viagem {
+
+    private int idViagem;
+    private String destino;
+    private String dataInicio;
+    private String dataFim;
+    private Usuario usuario;
+
+    public Viagem(int idViagem, String destino, String dataInicio, String dataFim, Usuario usuario) {
+        this.idViagem = idViagem;
+        this.destino = destino;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.usuario = usuario;
+    }
+
+    public int getIdViagem() {
+        return idViagem;
+    }
+
+    public void setIdViagem(int idViagem) {
+        this.idViagem = idViagem;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public String getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(String dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public String getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(String dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public int calcularDuracao() {
+
+        // Converter as Strings para ano, mês e dia
+        String[] partesInicio = dataInicio.split("-");
+        String[] partesFim = dataFim.split("-");
+
+        int anoInicio = Integer.parseInt(partesInicio[0]);
+        int mesInicio = Integer.parseInt(partesInicio[1]);
+        int diaInicio = Integer.parseInt(partesInicio[2]);
+
+        int anoFim = Integer.parseInt(partesFim[0]);
+        int mesFim = Integer.parseInt(partesFim[1]);
+        int diaFim = Integer.parseInt(partesFim[2]);
+
+        // Calcular o número de dias em cada data
+        int diasInicio = anoInicio * 365 + mesInicio * 30 + diaInicio;
+        int diasFim = anoFim * 365 + mesFim * 30 + diaFim;
+
+        return diasFim - diasInicio;
+    }
+
+    @Override
+    public String toString() {
+        return "Viagem {" +
+                "idViagem = " + idViagem +
+                " | destino = '" + destino + '\'' +
+                " | dataInicio = '" + dataInicio + '\'' +
+                " | dataFim = '" + dataFim + '\'' +
+                " |  " + usuario +
+                '}';
+    }
+}
