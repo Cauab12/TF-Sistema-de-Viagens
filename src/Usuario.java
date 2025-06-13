@@ -3,11 +3,17 @@ public class Usuario {
     private int id;
     private String nome;
     private String email;
+    private static String emailRegistrado;
 
     public Usuario(int id, String nome, String email) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
+        if (emailRegistrado != null && emailRegistrado.equals(email)) {
+            System.out.println("Erro: E-mail já cadastrado.");
+        } else {
+            this.id = id;
+            this.nome = nome;
+            this.email = email;
+            emailRegistrado = email;
+        }
     }
 
     public int getId() {

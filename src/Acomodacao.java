@@ -64,12 +64,10 @@ public class Acomodacao {
 
     @Override
     public String toString() {
-        return "Acomodacao{" +
-                "idAcomodacao=" + idAcomodacao +
-                ", nome='" + nome + '\'' +
-                ", custoDiario=" + custoDiario +
-                ", diasReservados=" + diasReservados +
-                ", viagem=" + viagem +
-                '}';
+        return  "  ID da Acomodacao: " + idAcomodacao + "\n" +
+                "  Nome: " + nome + "\n" +
+                "  Custo Diario: " + custoDiario + "\n" +
+                "  Dias Reservados: " + diasReservados + "\n" +
+                " \n Viagem: \n" + viagem;
     }
 }
