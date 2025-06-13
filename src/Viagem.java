@@ -56,7 +56,6 @@ public class Viagem {
 
     public int calcularDuracao() {
 
-        // Converter as Strings para ano, mês e dia
         String[] partesInicio = dataInicio.split("-");
         String[] partesFim = dataFim.split("-");
 
@@ -77,12 +76,11 @@ public class Viagem {
 
     @Override
     public String toString() {
-        return "Viagem {" +
-                "idViagem = " + idViagem +
-                " | destino = '" + destino + '\'' +
-                " | dataInicio = '" + dataInicio + '\'' +
-                " | dataFim = '" + dataFim + '\'' +
-                " |  " + usuario +
-                '}';
+        return  "  ID da Viagem: " + idViagem + "\n" +
+                "  Destino: " + destino + "\n" +
+                "  Data de Início: " + dataInicio + "\n" +
+                "  Data de Fim: " + dataFim + "\n" +
+                "  Duração: " + calcularDuracao() + " dias\n" +
+                " \n " + usuario;
     }
 }
