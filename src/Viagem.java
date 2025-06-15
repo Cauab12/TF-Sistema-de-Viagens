@@ -55,23 +55,22 @@ public class Viagem {
     }
 
     public int calcularDuracao() {
-
         String[] partesInicio = dataInicio.split("-");
         String[] partesFim = dataFim.split("-");
 
-        int anoInicio = Integer.parseInt(partesInicio[0]);
-        int mesInicio = Integer.parseInt(partesInicio[1]);
         int diaInicio = Integer.parseInt(partesInicio[2]);
+        int mesInicio = Integer.parseInt(partesInicio[1]);
+        int anoInicio = Integer.parseInt(partesInicio[0]);
 
-        int anoFim = Integer.parseInt(partesFim[0]);
-        int mesFim = Integer.parseInt(partesFim[1]);
         int diaFim = Integer.parseInt(partesFim[2]);
+        int mesFim = Integer.parseInt(partesFim[1]);
+        int anoFim = Integer.parseInt(partesFim[0]);
 
-        // Calcular o número de dias em cada data
-        int diasInicio = anoInicio * 365 + mesInicio * 30 + diaInicio;
-        int diasFim = anoFim * 365 + mesFim * 30 + diaFim;
+        // Cálculo aproximado da quantidade total de dias
+        int totalDiasInicio = diaInicio + (mesInicio * 30) + (anoInicio * 365);
+        int totalDiasFim = diaFim + (mesFim * 30) + (anoFim * 365);
 
-        return diasFim - diasInicio;
+        return totalDiasFim - totalDiasInicio + 1; // +1 para incluir o dia final
     }
 
     @Override

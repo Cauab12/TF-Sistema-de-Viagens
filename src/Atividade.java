@@ -44,12 +44,8 @@ public class Atividade {
         this.viagem = viagem;
     }
 
-    public static double calcularCustoTotal(Atividade[] atividades) {
-        double total = 0;
-        for (int i = 0; i < atividades.length; i++) {
-            total += atividades[i].getCustoEstimado();
-        }
-        return total;
+    public double calcularCustoTotal() {
+        return custoEstimado;
     }
 
     @Override

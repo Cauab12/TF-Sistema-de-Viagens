@@ -54,12 +54,8 @@ public class Acomodacao {
         this.viagem = viagem;
     }
 
-    public static double calcularCustoTotal(Acomodacao[] acomodacoes) {
-        double total = 0;
-        for (int i = 0; i < acomodacoes.length; i++) {
-            total += acomodacoes[i].getCustoDiario();
-        }
-        return total;
+    public double calcularCustoTotal() {
+        return custoDiario * diasReservados;
     }
 
     @Override
