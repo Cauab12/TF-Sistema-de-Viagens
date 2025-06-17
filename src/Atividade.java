@@ -50,7 +50,8 @@ public class Atividade {
 
     @Override
     public String toString() {
-        return  "  ID da Atividade: " + idAtividade + "\n" +
+        return  "Atividades: " + "\n" +
+                "  ID da Atividade: " + idAtividade + "\n" +
                 "  Descrição: " + descricao + "\n" +
                 "  Custo Estimado: R$ " + String.format("%.2f", custoEstimado) + "\n" +
                 "\n Viagem: \n" + viagem.toString();

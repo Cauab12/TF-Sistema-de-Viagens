@@ -3,17 +3,11 @@ public class Usuario {
     private int id;
     private String nome;
     private String email;
-    private static String emailRegistrado;
 
     public Usuario(int id, String nome, String email) {
-        if (emailRegistrado != null && emailRegistrado.equals(email)) {
-            System.out.println("Erro: E-mail já cadastrado.");
-        } else {
-            this.id = id;
-            this.nome = nome;
-            this.email = email;
-            emailRegistrado = email;
-        }
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
     }
 
     public int getId() {
@@ -45,6 +39,6 @@ public class Usuario {
         return "Usuário:\n" +
                 "  ID: " + id + "\n" +
                 "  Nome: " + nome + "\n" +
-                "  Email: " + email;
+                "  Email: " + email + "\n";
     }
 }

@@ -60,7 +60,8 @@ public class Acomodacao {
 
     @Override
     public String toString() {
-        return  "  ID da Acomodacao: " + idAcomodacao + "\n" +
+        return  "Acomodações: " + "\n" +
+                "  ID da Acomodacao: " + idAcomodacao + "\n" +
                 "  Nome: " + nome + "\n" +
                 "  Custo Diario: " + custoDiario + "\n" +
                 "  Dias Reservados: " + diasReservados + "\n" +

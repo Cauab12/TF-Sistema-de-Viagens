@@ -66,11 +66,10 @@ public class Viagem {
         int mesFim = Integer.parseInt(partesFim[1]);
         int anoFim = Integer.parseInt(partesFim[0]);
 
-        // Cálculo aproximado da quantidade total de dias
         int totalDiasInicio = diaInicio + (mesInicio * 30) + (anoInicio * 365);
         int totalDiasFim = diaFim + (mesFim * 30) + (anoFim * 365);
 
-        return totalDiasFim - totalDiasInicio + 1; // +1 para incluir o dia final
+        return totalDiasFim - totalDiasInicio + 1;
     }
 
     @Override

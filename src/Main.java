@@ -1,20 +1,24 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    private static List<Usuario> usuarios = new ArrayList<>();
-    private static List<Viagem> viagens = new ArrayList<>();
-    private static List<Atividade> atividades = new ArrayList<>();
-    private static List<Acomodacao> acomodacoes = new ArrayList<>();
+    private static Usuario[] usuarios = new Usuario[10];
+    private static Viagem[] viagens = new Viagem[10];
+    private static Atividade[] atividades = new Atividade[10];
+    private static Acomodacao[] acomodacoes = new Acomodacao[10];
+
+    private static int usuariosCount = 0;
+    private static int viagensCount = 0;
+    private static int atividadesCount = 0;
+    private static int acomodacoesCount = 0;
+
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         while (true) {
             exibirMenu();
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // limps
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -67,18 +71,41 @@ public class Main {
     private static void cadastrarUsuario() {
         System.out.print("Digite o ID do Usuário: ");
         int id = scanner.nextInt();
-        scanner.nextLine();  // limps
+        scanner.nextLine();
         System.out.print("Digite o nome do Usuário: ");
         String nome = scanner.nextLine();
         System.out.print("Digite o e-mail do Usuário: ");
         String email = scanner.nextLine();
 
-        Usuario usuario = new Usuario(id, nome, email);
-        if (usuario != null) {
-            usuarios.add(usuario);
-            System.out.println("Usuário cadastrado com sucesso!");
-        } else {
+        boolean emailExistente = false;
+        for (int i = 0; i < usuariosCount; i++) {
+            if (usuarios[i].getEmail().equals(email)) {
+                emailExistente = true;
+                break;
+            }
+        }
+
+        if (emailExistente) {
             System.out.println("Erro: E-mail já cadastrado.");
+        } else {
+            boolean idExistente = false;
+            for (int i = 0; i < usuariosCount; i++) {
+                if (usuarios[i].getId() == id) {
+                    idExistente = true;
+                    break;
+                }
+            }
+
+            if (idExistente) {
+                System.out.println("Erro: ID já cadastrado.");
+            } else {
+                if (usuariosCount < usuarios.length) {
+                    usuarios[usuariosCount++] = new Usuario(id, nome, email);
+                    System.out.println("Usuário cadastrado com sucesso!");
+                } else {
+                    System.out.println("Erro: Limite de usuários atingido.");
+                }
+            }
         }
     }
 
@@ -93,60 +120,71 @@ public class Main {
         System.out.print("Digite a data de fim da viagem (yyyy-mm-dd): ");
         String dataFim = scanner.nextLine();
 
-        // Escolher o usuário
+
         System.out.println("Escolha o ID do Usuário:");
-        for (Usuario usuario : usuarios) {
-            System.out.println("ID: " + usuario.getId() + " - " + usuario.getNome());
+        for (int i = 0; i < usuariosCount; i++) {
+            System.out.println("ID: " + usuarios[i].getId() + " - " + usuarios[i].getNome());
         }
         int idUsuario = scanner.nextInt();
         scanner.nextLine(); // limps
 
-        Usuario usuario = usuarios.stream()
-                .filter(u -> u.getId() == idUsuario)
-                .findFirst()
-                .orElse(null);
+        Usuario usuario = null;
+        for (int i = 0; i < usuariosCount; i++) {
+            if (usuarios[i].getId() == idUsuario) {
+                usuario = usuarios[i];
+                break;
+            }
+        }
 
         if (usuario == null) {
             System.out.println("Usuário não encontrado!");
             return;
         }
 
-        Viagem viagem = new Viagem(idViagem, destino, dataInicio, dataFim, usuario);
-        viagens.add(viagem);
-        System.out.println("Viagem cadastrada com sucesso!");
+        if (viagensCount < viagens.length) {
+            viagens[viagensCount++] = new Viagem(idViagem, destino, dataInicio, dataFim, usuario);
+            System.out.println("Viagem cadastrada com sucesso!");
+        } else {
+            System.out.println("Erro: Limite de viagens atingido.");
+        }
     }
 
     private static void adicionarAtividade() {
         System.out.print("Digite o ID da Atividade: ");
         int idAtividade = scanner.nextInt();
-        scanner.nextLine();  // Consumir a linha após o número
+        scanner.nextLine();
         System.out.print("Digite a descrição da Atividade: ");
         String descricao = scanner.nextLine();
         System.out.print("Digite o custo estimado da Atividade: ");
         double custoEstimado = scanner.nextDouble();
         scanner.nextLine(); // limps
 
-        // Escolher a viagem
         System.out.println("Escolha o ID da Viagem:");
-        for (Viagem viagem : viagens) {
-            System.out.println("ID: " + viagem.getIdViagem() + " - " + viagem.getDestino());
+        for (int i = 0; i < viagensCount; i++) {
+            System.out.println("ID: " + viagens[i].getIdViagem() + " - " + viagens[i].getDestino());
         }
         int idViagem = scanner.nextInt();
         scanner.nextLine(); // limps
 
-        Viagem viagem = viagens.stream()
-                .filter(v -> v.getIdViagem() == idViagem)
-                .findFirst()
-                .orElse(null);
+        Viagem viagem = null;
+        for (int i = 0; i < viagensCount; i++) {
+            if (viagens[i].getIdViagem() == idViagem) {
+                viagem = viagens[i];
+                break;
+            }
+        }
 
         if (viagem == null) {
             System.out.println("Viagem não encontrada!");
             return;
         }
 
-        Atividade atividade = new Atividade(idAtividade, descricao, custoEstimado, viagem);
-        atividades.add(atividade);
-        System.out.println("Atividade adicionada com sucesso!");
+        if (atividadesCount < atividades.length) {
+            atividades[atividadesCount++] = new Atividade(idAtividade, descricao, custoEstimado, viagem);
+            System.out.println("Atividade adicionada com sucesso!");
+        } else {
+            System.out.println("Erro: Limite de atividades atingido.");
+        }
     }
 
     private static void adicionarAcomodacao() {
@@ -161,41 +199,49 @@ public class Main {
         int diasReservados = scanner.nextInt();
         scanner.nextLine(); // limps
 
-        // Escolher a viagem
         System.out.println("Escolha o ID da Viagem:");
-        for (Viagem viagem : viagens) {
-            System.out.println("ID: " + viagem.getIdViagem() + " - " + viagem.getDestino());
+        for (int i = 0; i < viagensCount; i++) {
+            System.out.println("ID: " + viagens[i].getIdViagem() + " - " + viagens[i].getDestino());
         }
         int idViagem = scanner.nextInt();
         scanner.nextLine(); // limps
 
-        Viagem viagem = viagens.stream()
-                .filter(v -> v.getIdViagem() == idViagem)
-                .findFirst()
-                .orElse(null);
+        Viagem viagem = null;
+        for (int i = 0; i < viagensCount; i++) {
+            if (viagens[i].getIdViagem() == idViagem) {
+                viagem = viagens[i];
+                break;
+            }
+        }
 
         if (viagem == null) {
             System.out.println("Viagem não encontrada!");
             return;
         }
 
-        Acomodacao acomodacao = new Acomodacao(idAcomodacao, nome, custoDiario, diasReservados, viagem);
-        acomodacoes.add(acomodacao);
-        System.out.println("Acomodação adicionada com sucesso!");
+        if (acomodacoesCount < acomodacoes.length) {
+            acomodacoes[acomodacoesCount++] = new Acomodacao(idAcomodacao, nome, custoDiario, diasReservados, viagem);
+            System.out.println("Acomodação adicionada com sucesso!");
+        } else {
+            System.out.println("Erro: Limite de acomodações atingido.");
+        }
     }
 
     private static void consultarItinerario() {
         System.out.println("Escolha o ID da Viagem:");
-        for (Viagem viagem : viagens) {
-            System.out.println("ID: " + viagem.getIdViagem() + " - " + viagem.getDestino());
+        for (int i = 0; i < viagensCount; i++) {
+            System.out.println("ID: " + viagens[i].getIdViagem() + " - " + viagens[i].getDestino());
         }
         int idViagem = scanner.nextInt();
-        scanner.nextLine(); // limps
+        scanner.nextLine();
 
-        Viagem viagem = viagens.stream()
-                .filter(v -> v.getIdViagem() == idViagem)
-                .findFirst()
-                .orElse(null);
+        Viagem viagem = null;
+        for (int i = 0; i < viagensCount; i++) {
+            if (viagens[i].getIdViagem() == idViagem) {
+                viagem = viagens[i];
+                break;
+            }
+        }
 
         if (viagem == null) {
             System.out.println("Viagem não encontrada!");
@@ -203,51 +249,96 @@ public class Main {
         }
 
         System.out.println("\nItinerário de " + viagem.getDestino() + ":");
-        System.out.println("Atividades:");
-        atividades.stream()
-                .filter(a -> a.getViagem().equals(viagem))
-                .forEach(a -> System.out.println(a));
-        System.out.println("Acomodações:");
-        acomodacoes.stream()
-                .filter(a -> a.getViagem().equals(viagem))
-                .forEach(a -> System.out.println(a));
+
+
+        boolean encontrouAtividade = false;
+        for (int i = 0; i < atividadesCount; i++) {
+            if (atividades[i].getViagem().equals(viagem)) {
+                System.out.println(atividades[i]);
+                encontrouAtividade = true;
+            }
+        }
+        if (!encontrouAtividade) {
+            System.out.println("Nenhuma atividade encontrada para essa viagem.");
+        }
+
+
+        boolean encontrouAcomodacao = false;
+        for (int i = 0; i < acomodacoesCount; i++) {
+            if (acomodacoes[i].getViagem().equals(viagem)) {
+                System.out.println(acomodacoes[i]);
+                encontrouAcomodacao = true;
+            }
+        }
+        if (!encontrouAcomodacao) {
+            System.out.println("Nenhuma acomodação encontrada para essa viagem.");
+        }
     }
+
 
     private static void calcularOrcamentoTotal() {
         System.out.println("Escolha o ID da Viagem:");
-        for (Viagem viagem : viagens) {
-            System.out.println("ID: " + viagem.getIdViagem() + " - " + viagem.getDestino());
+        for (int i = 0; i < viagensCount; i++) {
+            System.out.println("ID: " + viagens[i].getIdViagem() + " - " + viagens[i].getDestino());
         }
         int idViagem = scanner.nextInt();
-        scanner.nextLine(); // limps
+        scanner.nextLine();
 
-        Viagem viagem = viagens.stream()
-                .filter(v -> v.getIdViagem() == idViagem)
-                .findFirst()
-                .orElse(null);
+        Viagem viagem = null;
+        for (int i = 0; i < viagensCount; i++) {
+            if (viagens[i].getIdViagem() == idViagem) {
+                viagem = viagens[i];
+                break;
+            }
+        }
 
         if (viagem == null) {
             System.out.println("Viagem não encontrada!");
             return;
         }
 
-        Orcamento orcamento = new Orcamento(viagem);
-        orcamento.calcularTotal(atividades.toArray(new Atividade[0]), acomodacoes.toArray(new Acomodacao[0]));
-        System.out.println(orcamento);
+        double totalAtividades = 0;
+        double totalAcomodacoes = 0;
+
+
+        for (int i = 0; i < atividadesCount; i++) {
+            if (atividades[i].getViagem().equals(viagem)) {
+                totalAtividades += atividades[i].calcularCustoTotal();
+            }
+        }
+
+
+        for (int i = 0; i < acomodacoesCount; i++) {
+            if (acomodacoes[i].getViagem().equals(viagem)) {
+                totalAcomodacoes += acomodacoes[i].calcularCustoTotal();
+            }
+        }
+
+        double totalGasto = totalAtividades + totalAcomodacoes;
+
+        System.out.println("Orçamento da Viagem: ");
+        System.out.println("  Destino: " + viagem.getDestino());
+        System.out.println("  Total em Atividades: R$ " + String.format("%.2f", totalAtividades));
+        System.out.println("  Total em Acomodações: R$ " + String.format("%.2f", totalAcomodacoes));
+        System.out.println("  Total Gasto: R$ " + String.format("%.2f", totalGasto));
     }
+
 
     private static void consultarViagensPorUsuario() {
         System.out.println("Escolha o ID do Usuário:");
-        for (Usuario usuario : usuarios) {
-            System.out.println("ID: " + usuario.getId() + " - " + usuario.getNome());
+        for (int i = 0; i < usuariosCount; i++) {
+            System.out.println("ID: " + usuarios[i].getId() + " - " + usuarios[i].getNome());
         }
         int idUsuario = scanner.nextInt();
-        scanner.nextLine();// limps
+        scanner.nextLine();
 
-        Usuario usuario = usuarios.stream()
-                .filter(u -> u.getId() == idUsuario)
-                .findFirst()
-                .orElse(null);
+        Usuario usuario = null;
+        for (int i = 0; i < usuariosCount; i++) {
+            if (usuarios[i].getId() == idUsuario) {
+                usuario = usuarios[i];
+                break;
+            }
+        }
 
         if (usuario == null) {
             System.out.println("Usuário não encontrado!");
@@ -255,20 +346,28 @@ public class Main {
         }
 
         System.out.println("\nViagens de " + usuario.getNome() + ":");
-        viagens.stream()
-                .filter(v -> v.getUsuario().equals(usuario))
-                .forEach(v -> System.out.println(v));
+        boolean encontrouViagem = false;
+        for (int i = 0; i < viagensCount; i++) {
+            if (viagens[i].getUsuario().equals(usuario)) {
+                System.out.println(viagens[i]);
+                encontrouViagem = true;
+            }
+        }
+        if (!encontrouViagem) {
+            System.out.println("Nenhuma viagem encontrada para esse usuário.");
+        }
     }
 
-    private static void consultarUsuarios(){
-        if (usuarios.isEmpty()) {
+
+    private static void consultarUsuarios() {
+        if (usuariosCount == 0) {
             System.out.println("Nenhum usuário cadastrado.");
             return;
         }
 
         System.out.println("\nUsuários cadastrados:");
-        for (Usuario usuario : usuarios) {
-            System.out.println("ID: " + usuario.getId() + " - Nome: " + usuario.getNome() + " - E-mail: " + usuario.getEmail());
+        for (int i = 0; i < usuariosCount; i++) {
+            System.out.println("ID: " + usuarios[i].getId() + " - Nome: " + usuarios[i].getNome() + " - E-mail: " + usuarios[i].getEmail());
         }
     }
 }
